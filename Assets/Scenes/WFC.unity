@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4dcc24cdc94a61a74939d421bb782b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputTexture: {fileID: 2800000, guid: 57ff426828f39454a9ea5d7c97cab4a8, type: 3}
+  inputTexture: {fileID: 2800000, guid: 999ba77bb5e0e7a498bcd91572efc262, type: 3}
   outputSizeX: 0
   outputSizeY: 0
 --- !u!4 &1799993426
