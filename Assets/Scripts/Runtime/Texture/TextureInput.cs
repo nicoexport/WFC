@@ -61,7 +61,7 @@ namespace Runtime.Texture {
 
                     // Add rule, if it doesnt exist already
                     foreach (var neighbour in neighbourColors) {
-                        if (!rules.Any(rule => rule.Test(pixelColor, neighbour))) {
+                        if (!rules.Any(rule => rule.Match(pixelColor, neighbour))) {
                             rules.Add(new ColorRule(pixelColor, neighbour));
                         }
                     }

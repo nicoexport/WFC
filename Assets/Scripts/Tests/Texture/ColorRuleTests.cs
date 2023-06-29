@@ -23,7 +23,7 @@ namespace Tests.Texture {
         [TestCase("#ff0000", "#ff0000", "#ff0000", "#00ff00", false)]
         //test colors are the same color, two matching rule colors
         [TestCase("#ff0000", "#ff0000", "#ff0000", "#ff0000", true)]
-        public void T00_ColorRule_Test(string ruleColorHex1, string ruleColorHex2, string testColorHex1, string testColorHex2, bool expectedResult) {
+        public void T00_ColorRule_Match(string ruleColorHex1, string ruleColorHex2, string testColorHex1, string testColorHex2, bool expectedResult) {
             Assert.IsTrue(ColorUtility.TryParseHtmlString(ruleColorHex1, out ruleColor1));
             Assert.IsTrue(ColorUtility.TryParseHtmlString(ruleColorHex2, out ruleColor2));
             Assert.IsTrue(ColorUtility.TryParseHtmlString(testColorHex1, out testColor1));
@@ -33,7 +33,7 @@ namespace Tests.Texture {
             
             Assert.IsNotNull(sut);
 
-            bool result = sut.Test(testColor1, testColor2);
+            bool result = sut.Match(testColor1, testColor2);
             
             Assert.AreEqual(expectedResult, result);
         }
