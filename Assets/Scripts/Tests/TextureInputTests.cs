@@ -13,8 +13,8 @@ namespace Tests {
             int expectedNumberOfPossibleStates) {
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{textureName}");
             Assert.IsTrue(texture);
-            var input = new TextureInput(texture);
-            var rules = input.Read(out var possibleStates);
+            var sut = new TextureInput(texture);
+            var rules = sut.Read(out var possibleStates);
 
             Assert.IsTrue(rules.Length == expectedNumberOfRules);
             Assert.IsTrue(possibleStates.Length == expectedNumberOfPossibleStates);
