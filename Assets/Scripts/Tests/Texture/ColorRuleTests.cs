@@ -11,7 +11,18 @@ namespace Tests.Texture {
         Color testColor2;
         
         [Test]
+        //test and rule colors matching
         [TestCase("#ff0000", "#00ff00", "#ff0000", "#00ff00", true)]
+        //test colors swapped
+        [TestCase("#ff0000", "#00ff00", "00ff00", "#ff0000", true)]
+        
+        //test and rule colors not matching whatsoever
+        [TestCase("#ff0000", "#00ff00", "00fff0", "#ff00f0", true)]
+        
+        //test colors are the same color, one matching rule color
+        [TestCase("#ff0000", "#ff0000", "#ff0000", "#00ff00", false)]
+        //test colors are the same color, two matching rule colors
+        [TestCase("#ff0000", "#ff0000", "#ff0000", "#ff0000", true)]
         public void T00_ColorRule_Test(string ruleColorHex1, string ruleColorHex2, string testColorHex1, string testColorHex2, bool expectedResult) {
             Assert.IsTrue(ColorUtility.TryParseHtmlString(ruleColorHex1, out ruleColor1));
             Assert.IsTrue(ColorUtility.TryParseHtmlString(ruleColorHex2, out ruleColor2));
