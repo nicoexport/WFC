@@ -11,11 +11,10 @@ namespace Runtime.Texture {
         public Color SecondColor { get; }
 
         public bool Match(Color firstInput, Color secondInput) {
-            
             if (firstInput == secondInput) {
                 return firstInput == FirstColor && firstInput == SecondColor;
             }
-            
+
             bool firstMatches = firstInput == FirstColor || firstInput == SecondColor;
             bool secondMatches = secondInput == FirstColor || secondInput == SecondColor;
 

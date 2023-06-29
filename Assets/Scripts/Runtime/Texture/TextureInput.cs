@@ -72,6 +72,7 @@ namespace Runtime.Texture {
             foreach (var entry in colors) {
                 possibleStates.Add(new ColorState(entry.Key));
             }
+
             return rules;
         }
     }
