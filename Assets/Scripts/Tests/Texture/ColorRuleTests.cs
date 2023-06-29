@@ -14,10 +14,10 @@ namespace Tests.Texture {
         //test and rule colors matching
         [TestCase("#ff0000", "#00ff00", "#ff0000", "#00ff00", true)]
         //test colors swapped
-        [TestCase("#ff0000", "#00ff00", "00ff00", "#ff0000", true)]
+        [TestCase("#ff0000", "#00ff00", "#00ff00", "#ff0000", true)]
         
         //test and rule colors not matching whatsoever
-        [TestCase("#ff0000", "#00ff00", "00fff0", "#ff00f0", true)]
+        [TestCase("#ff0000", "#00ff00", "#00fff0", "#ff00f0", false)]
         
         //test colors are the same color, one matching rule color
         [TestCase("#ff0000", "#ff0000", "#ff0000", "#00ff00", false)]
