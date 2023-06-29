@@ -18,8 +18,10 @@ namespace Tests.Texture {
         //test and rule colors not matching whatsoever
         [TestCase("#ff0000", "#00ff00", "#00fff0", "#ff00f0", false)]
 
-        //test colors are the same color, one matching rule color
+        //rule colors are the same color, one matching test color
         [TestCase("#ff0000", "#ff0000", "#ff0000", "#00ff00", false)]
+        // test colors are the same, one matching rule color
+        [TestCase("#ff0000", "#00ff00", "#ff0000", "#ff0000", false)]
         //test colors are the same color, two matching rule colors
         [TestCase("#ff0000", "#ff0000", "#ff0000", "#ff0000", true)]
         public void T00_ColorRule_Match(string ruleColorHex1, string ruleColorHex2, string testColorHex1,
