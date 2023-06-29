@@ -17,7 +17,7 @@ namespace Runtime.Texture {
 
             Debug.Log("Possible States:");
             foreach (var state in states) {
-                Debug.Log(state.Color);
+                Debug.Log(state.Color + "WEIGHT: " + state.Weight);
             }
 
             Debug.Log("Rules:");

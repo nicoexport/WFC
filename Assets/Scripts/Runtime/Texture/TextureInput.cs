@@ -68,9 +68,12 @@ namespace Runtime.Texture {
                 }
             }
 
+            int totalPixels = input.width * input.height;
+            
             possibleStates = new List<ColorState>();
             foreach (var entry in colors) {
-                possibleStates.Add(new ColorState(entry.Key));
+                float weight = (float)entry.Value / totalPixels;
+                possibleStates.Add(new ColorState(entry.Key, weight));
             }
 
             return rules;
