@@ -1,9 +1,3 @@
-using NUnit.Framework;
-using Runtime;
-using Runtime.Texture;
-using UnityEditor;
-using UnityEngine;
-
 namespace Tests {
     public class TextureInputTests {
         const string PATH = "Assets/Input/";

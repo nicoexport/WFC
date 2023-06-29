@@ -31,10 +31,10 @@ namespace Runtime.Texture {
                     } else {
                         colors.Add(pixelColor, 1);
                     }
-                    
+
                     // Check neighboring pixels to setup rules
                     List<Color> neighbourColors = new();
-                    
+
                     // Check left pixel
                     if (x > 0) {
                         int leftIndex = index - 1;
