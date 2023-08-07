@@ -1,16 +1,25 @@
 {
-    "name": "WFC.SimpleTiles.Tests",
+    "name": "Tests",
     "rootNamespace": "WFC",
     "references": [
-        "GUID:95e7e0b6ee5b71547b6061cf075ebda9"
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "WFC.SimpleTiles"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "NSubstitute.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
