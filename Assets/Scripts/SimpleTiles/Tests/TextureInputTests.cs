@@ -1,9 +1,8 @@
 using NUnit.Framework;
-using Runtime.Texture;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tests.Texture {
+namespace WFC.SimpleTiles.Tests {
     public class TextureInputTests {
         const string PATH = "Assets/Input/";
 

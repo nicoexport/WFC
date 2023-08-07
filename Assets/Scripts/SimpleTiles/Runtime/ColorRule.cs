@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.Texture {
+namespace WFC.SimpleTiles {
     public class ColorRule {
         public ColorRule(Color firstColor, Color secondColor) {
             FirstColor = firstColor;

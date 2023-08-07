@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Runtime.Texture {
+namespace WFC.SimpleTiles {
     public class TextureInput {
         public TextureInput(Texture2D input) => this.input = input;
 

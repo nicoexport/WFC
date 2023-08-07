@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime.Texture {
+namespace WFC.SimpleTiles {
     public class TextureWaveFunctionGrid : MonoBehaviour {
         [SerializeField] Texture2D inputTexture;
         [SerializeField] int outputSizeX;

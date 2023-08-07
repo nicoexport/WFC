@@ -1,8 +1,7 @@
 using NUnit.Framework;
-using Runtime.Texture;
 using UnityEngine;
 
-namespace Tests.Texture {
+namespace WFC.SimpleTiles.Tests {
     public class ColorRuleTests {
         Color ruleColor1;
         Color ruleColor2;

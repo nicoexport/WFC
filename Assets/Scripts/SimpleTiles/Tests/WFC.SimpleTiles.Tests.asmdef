@@ -1,0 +1,16 @@
+{
+    "name": "WFC.SimpleTiles.Tests",
+    "rootNamespace": "WFC",
+    "references": [
+        "GUID:95e7e0b6ee5b71547b6061cf075ebda9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

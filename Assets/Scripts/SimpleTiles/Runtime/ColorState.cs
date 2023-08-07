@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.Texture {
+namespace WFC.SimpleTiles {
     public class ColorState {
         public ColorState(Color color, float weight) {
             Color = color;
