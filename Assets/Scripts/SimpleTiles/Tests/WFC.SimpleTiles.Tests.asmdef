@@ -1,5 +1,5 @@
 {
-    "name": "Tests",
+    "name": "WFC.SimpleTiles.Tests",
     "rootNamespace": "WFC",
     "references": [
         "UnityEngine.TestRunner",
