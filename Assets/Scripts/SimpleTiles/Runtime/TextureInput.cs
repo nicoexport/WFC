@@ -8,7 +8,7 @@ namespace WFC.SimpleTiles {
 
         readonly Texture2D input;
 
-        public List<ColorRule> Read(out List<ColorState> possibleStates) {
+        public IEnumerable<ColorRule> Read(out List<ColorState> possibleStates) {
             Dictionary<Color, int> colors = new();
             var pixels = input.GetPixels();
 

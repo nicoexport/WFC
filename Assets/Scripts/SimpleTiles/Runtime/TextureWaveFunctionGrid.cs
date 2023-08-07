@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
@@ -13,7 +14,7 @@ namespace WFC.SimpleTiles {
 
         protected void Start() {
             input = new TextureInput(inputTexture);
-            rules = input.Read(out states);
+            rules = input.Read(out states).ToList();
 
             Debug.Log("Possible States:");
             foreach (var state in states) {

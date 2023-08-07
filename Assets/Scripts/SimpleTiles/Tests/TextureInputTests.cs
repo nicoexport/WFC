@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace WFC.SimpleTiles.Tests {
             var sut = new TextureInput(texture);
 
             var rules = sut.Read(out var possibleStates);
-            Assert.AreEqual(expectedNumberOfRules, rules.Count);
+            Assert.AreEqual(expectedNumberOfRules, rules.ToList().Count);
             Assert.AreEqual(expectedNumberOfPossibleStates, possibleStates.Count);
         }
     }
