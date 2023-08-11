@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Mono.Collections.Generic;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
@@ -6,7 +8,11 @@ namespace WFC.SimpleTiles {
         readonly Texture2D inputTexture;
         public InputTextureReader(Texture2D inputTexture) => this.inputTexture = inputTexture;
 
-        public IEnumerable<(Color, Color, Direction)> GenerateRules() {
+        public List<(Color, int)> GetWeightedStates() {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<(Color, Color, Direction)> GetRules() {
             var pixels = inputTexture.GetPixels();
             int width = inputTexture.width;
             int height = inputTexture.height;
