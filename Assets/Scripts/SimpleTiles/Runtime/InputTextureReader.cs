@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
-    public class InputTextureReader {
+    internal sealed class InputTextureReader {
         readonly Texture2D inputTexture;
         public InputTextureReader(Texture2D inputTexture) => this.inputTexture = inputTexture;
 
