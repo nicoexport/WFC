@@ -8,8 +8,21 @@ namespace WFC.SimpleTiles {
         readonly Texture2D inputTexture;
         public InputTextureReader(Texture2D inputTexture) => this.inputTexture = inputTexture;
 
-        public List<(Color, int)> GetWeightedStates() {
-            throw new NotImplementedException();
+        public IEnumerable<(Color, int)> GetWeightedStates() {
+            var pixels = inputTexture.GetPixels();
+            Dictionary<Color, int> pairs = new();
+
+            foreach (var pixel in pixels) {
+                if (pairs.ContainsKey(pixel)) {
+                    pairs[pixel] += 1;
+                } else {
+                    pairs.Add(pixel, 1);
+                }
+            }
+
+            foreach (var pair in pairs) {
+                yield return (pair.Key, pair.Value);
+            }
         }
 
         public IEnumerable<(Color, Color, Direction)> GetRules() {
