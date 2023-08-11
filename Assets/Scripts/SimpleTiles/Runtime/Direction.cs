@@ -1,5 +1,4 @@
-namespace WFC.SimpleTiles
-{
+namespace WFC.SimpleTiles {
     public enum Direction {
         Left,
         Right,
