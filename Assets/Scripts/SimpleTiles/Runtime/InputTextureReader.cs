@@ -1,18 +1,17 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
     public class InputTextureReader {
-        public InputTextureReader(Texture2D inputTexture) => this.inputTexture = inputTexture;
         readonly Texture2D inputTexture;
+        public InputTextureReader(Texture2D inputTexture) => this.inputTexture = inputTexture;
 
         public IEnumerable<(Color, Color, Direction)> GenerateRules() {
             var pixels = inputTexture.GetPixels();
             int width = inputTexture.width;
             int height = inputTexture.height;
             var rules = new List<(Color, Color, Direction)>();
-            
+
             // Iterate over all pixels
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
@@ -67,9 +66,9 @@ namespace WFC.SimpleTiles {
     }
 
     public enum Direction {
-        Left, 
-        Right, 
-        Up, 
+        Left,
+        Right,
+        Up,
         Down
     }
 }

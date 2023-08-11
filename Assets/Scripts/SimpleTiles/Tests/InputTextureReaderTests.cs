@@ -1,17 +1,15 @@
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 
 namespace WFC.SimpleTiles.Tests {
     [TestFixture(TestOf = typeof(InputTextureReader))]
-    public class InputTextureReaderTests {
+    internal sealed class InputTextureReaderTests {
         const string PATH = "Assets/Scripts/SimpleTiles/TestAssets/";
 
         public record InputPairs(string Path, IEnumerable<(Color, Color, Direction)> Rules);
-        
-        #region 00 Input Pairs
+
         static IEnumerable<(Color, Color, Direction)> Rules01 {
             get {
                 yield return new(Color.red, Color.green, Direction.Right);
@@ -48,8 +46,7 @@ namespace WFC.SimpleTiles.Tests {
                 yield return new("Sprite03.png", Rules03);
             }
         }
-        #endregion
-        
+
         [Test]
         public void T00_InputTextureReader_LoadTextures([ValueSource(nameof(Input))] InputPairs input) {
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{input.Path}");

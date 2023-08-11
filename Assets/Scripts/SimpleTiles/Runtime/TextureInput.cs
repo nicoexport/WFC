@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace WFC.SimpleTiles {
     public class TextureInput {
-        public TextureInput(Texture2D input) => this.input = input;
-
         readonly Texture2D input;
+        public TextureInput(Texture2D input) => this.input = input;
 
         public IEnumerable<ColorRule> Read(out List<ColorState> possibleStates) {
             Dictionary<Color, int> colors = new();
@@ -62,18 +61,18 @@ namespace WFC.SimpleTiles {
                     // Add rule, if it doesnt exist already
                     foreach (var neighbour in neighbourColors) {
                         if (!rules.Any(rule => rule.Match(pixelColor, neighbour))) {
-                            rules.Add(new ColorRule(pixelColor, neighbour));
+                            rules.Add(new(pixelColor, neighbour));
                         }
                     }
                 }
             }
 
             int totalPixels = input.width * input.height;
-            
-            possibleStates = new List<ColorState>();
+
+            possibleStates = new();
             foreach (var entry in colors) {
                 float weight = (float)entry.Value / totalPixels;
-                possibleStates.Add(new ColorState(entry.Key, weight));
+                possibleStates.Add(new(entry.Key, weight));
             }
 
             return rules;

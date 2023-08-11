@@ -4,14 +4,10 @@ using UnityEngine;
 
 namespace WFC.SimpleTiles {
     public class RuleSet {
-        public RuleSet(IEnumerable<(Color, Color, Direction)> rules) {
-            this.rules = rules;
-        }
-
         readonly IEnumerable<(Color, Color, Direction)> rules;
 
-        public bool Match() {
-            throw new NotImplementedException();
-        }
+        public RuleSet(IEnumerable<(Color, Color, Direction)> rules) => this.rules = rules;
+
+        public bool Match() => throw new NotImplementedException();
     }
 }

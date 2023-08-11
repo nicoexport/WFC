@@ -13,7 +13,7 @@ namespace WFC.SimpleTiles {
         List<ColorState> states;
 
         protected void Start() {
-            input = new TextureInput(inputTexture);
+            input = new(inputTexture);
             rules = input.Read(out states).ToList();
 
             Debug.Log("Possible States:");
