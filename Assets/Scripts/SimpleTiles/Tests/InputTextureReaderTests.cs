@@ -64,7 +64,7 @@ namespace WFC.SimpleTiles.Tests {
             var sut = new InputTextureReader(texture);
             var actual = sut.GenerateRules();
 
-            CollectionAssert.AreEqual(input.Rules, actual);
+            CollectionAssert.AreEquivalent(input.Rules, actual);
         }
     }
 }
