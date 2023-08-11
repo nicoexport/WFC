@@ -9,51 +9,46 @@ namespace WFC.SimpleTiles.Tests {
     public class InputTextureReaderTests {
         const string PATH = "Assets/Scripts/SimpleTiles/TestAssets/";
 
-        public record TextureRulesPair(string path, IEnumerable<(Color, Color, Direction)> rules) {
-            
-        }
+        public record InputPairs(string Path, IEnumerable<(Color, Color, Direction)> Rules);
 
-        public static IEnumerable<(Color, Color, Direction)> Rules01 {
+        static IEnumerable<(Color, Color, Direction)> Rules01 {
             get {
                 yield return new(Color.red, Color.green, Direction.Right);
                 yield return new(Color.green, Color.red, Direction.Left);
             }
         }
-
-        public static IEnumerable<TextureRulesPair> RulesPairs {
+        
+        static IEnumerable<(Color, Color, Direction)> Rules02 {
             get {
-                yield return new("Sprite-0001.png", Rules01);
+                yield return new(Color.red, Color.green, Direction.Right);
+                yield return new(Color.green, Color.red, Direction.Left);
+                yield return new(Color.green, Color.blue, Direction.Right);
+                yield return new(Color.blue, Color.green, Direction.Left);
+            }
+        }
+
+        public static IEnumerable<InputPairs> Input {
+            get {
+                yield return new("Sprite01.png", Rules01);
+                yield return new("Sprite02.png", Rules02);
             }
         }
 
         [Test]
-        [TestCase("Sprite-0001.png")]
-        [TestCase("Sprite-0002.png")]
-        [TestCase("Sprite-0003.png")]
-        [TestCase("Sprite-0004.png")]
-        [TestCase("Sprite-0005.png")]
-        [TestCase("Sprite-0006.png")]
-        public void T00_InputTextureReader_LoadTextures(string textureName) {
-            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{textureName}");
+        public void T00_InputTextureReader_LoadTextures([ValueSource(nameof(Input))] InputPairs input) {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{input.Path}");
             Assert.IsTrue(texture);
         }
 
         [Test]
-        [TestCase("Sprite-0001.png", 2)]
-        public void T01_InputTextureReader_NumberOfRules(string textureName, int expectedNumberOfRules) {
-            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{textureName}");
-            Assert.IsTrue(texture);
+        public void T01_GivenTexture_WhenGenerateRules_ThenReturnExpectedRules(
+            [ValueSource(nameof(Input))] InputPairs input) {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{input.Path}");
 
             var sut = new InputTextureReader(texture);
-            var rules = sut.GenerateRules();
-            Assert.AreEqual(expectedNumberOfRules, rules.ToList().Count);
-        }
+            var actual = sut.GenerateRules();
 
-        [Test]
-        public void T02_GivenTexture_WhenGenerateRules_ThenReturnAllRules(
-            [ValueSource(nameof(RulesPairs))] TextureRulesPair rulePairs) {
-            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}{rulePairs.path}");
-
+            CollectionAssert.AreEqual(input.Rules, actual);
         }
     }
 }

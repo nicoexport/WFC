@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "WFC.SimpleTiles"
+        "WFC.SimpleTiles",
+        "System.Runtime.CompilerServices"
     ],
     "includePlatforms": [
         "Editor"
