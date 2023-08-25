@@ -31,19 +31,25 @@ namespace WFC.SimpleTiles {
             }
         }
 
-        public void Match(Cell other, Direction direction) {
+        public bool Match(Cell other, Direction direction) {
+            bool wasMatching = true;
             var otherColors = other.superposition.Where(pair => pair.Value).Select(pair => pair.Key).ToList();
             var thisColors = superposition.Where(pair => pair.Value).Select(pair => pair.Key).ToList();
 
-            foreach (var otherColor in otherColors) {
-                foreach (var thisColor in thisColors) {
+            for (int i = 0; i < otherColors.Count; i++) {
+                var otherColor = otherColors[i];
+                for (int j = 0; j < thisColors.Count; j++) {
+                    var thisColor = thisColors[j];
                     var candidateRule = (otherColor, thisColor, direction);
 
                     if (!rules.Contains(candidateRule)) {
                         superposition[thisColor] = false;
+                        wasMatching = false;
                     }
                 }
             }
+
+            return wasMatching;
         }
     }
 }
