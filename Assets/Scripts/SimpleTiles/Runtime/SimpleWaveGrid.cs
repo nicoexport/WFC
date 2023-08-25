@@ -36,6 +36,14 @@ namespace WFC.SimpleTiles {
             while (cellsToPropagate.Count > 0) {
                 Propagate(cellsToPropagate.Dequeue());
             }
+
+            foreach (var item in wave) {
+                var colors = item.superposition.Where(pair => pair.Value).Select(pair => pair.Key).ToList();
+                Debug.Log("--------------------------");
+                foreach (var color in colors) {
+                    Debug.Log(color);
+                }
+            }
         }
 
         void ReadInput() {
@@ -70,7 +78,7 @@ namespace WFC.SimpleTiles {
         void Propagate(int cellIndex) {
             //CheckNeighbours add them to the stack if they are'nt on it and sort out states that dont match the rules
             observedCells.Add(cellIndex);
-
+           
             var coordinates = GetCoordinatesFromIndex(cellIndex);
             int x = coordinates.Item1;
             int y = coordinates.Item2;
@@ -110,10 +118,12 @@ namespace WFC.SimpleTiles {
                     wave[bottomIndex].Match(wave[cellIndex], Direction.Down);
                 }
             }
+
+            cellsToPropagate.Dequeue();
         }
 
         (int, int) GetCoordinatesFromIndex(int index) {
-            return (index / outputSizeX, index % outputSizeX);
+            return (index % outputSizeX, index / outputSizeX);
         }
     }
 }
