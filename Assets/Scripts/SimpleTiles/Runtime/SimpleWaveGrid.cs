@@ -42,5 +42,28 @@ namespace WFC.SimpleTiles {
             }
         }
 
+        bool FindLowestEnthropyCellIndex(Dictionary<Color, bool>[] cells, out int cellIndex) {
+            int lowest = int.MaxValue;
+            cellIndex = -1;
+
+            for (int i = 0; i < cells.Length; i++) {
+                var cell = cells[i];
+                int enthropy = 0;
+
+                foreach (var state in cell) {
+                    if(state.Value == true) {
+                        enthropy++;
+                    }
+                }
+
+                if (enthropy < lowest) {
+                    lowest = enthropy;
+                    cellIndex = i;
+                }
+            }
+
+            return cellIndex == -1;
+        }
+
     }
 }
