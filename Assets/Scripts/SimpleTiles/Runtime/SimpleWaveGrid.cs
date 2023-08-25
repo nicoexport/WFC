@@ -2,8 +2,8 @@
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
-    public class WaveGrid {
-        public WaveGrid(Texture2D input, int outputSizeX, int outputSizeY) {
+    public class SimpleWaveGrid {
+        public SimpleWaveGrid(Texture2D input, int outputSizeX, int outputSizeY) {
             this.input = input;
             this.outputSizeX = outputSizeX;
             this.outputSizeY = outputSizeY;
@@ -13,18 +13,34 @@ namespace WFC.SimpleTiles {
         readonly Texture2D input;
         readonly int outputSizeX;
         readonly int outputSizeY;
-        readonly int cellAmount; 
+        readonly int cellAmount;
 
         IEnumerable<(Color, int)> weightedStates;
         IEnumerable<(Color, Color, Direction)> rules;
-        IEnumerable<Color>[] wave;
+        Dictionary<Color, bool>[] wave;
 
-        public void Setup() {
+        public void Execute() {
+            ReadInput();
+            wave = new Dictionary<Color, bool>[cellAmount];
+            InitializeWave();
+
+
+        }
+
+        void ReadInput() {
             var reader = new InputTextureReader(input);
             weightedStates = reader.GetWeightedStates();
             rules = reader.GetRules();
-            
-            wave = new IEnumerable<Color>[cellAmount];
         }
+
+        void InitializeWave() {
+            // Putting each cell into the superposition
+            foreach (var cell in wave) {
+                foreach (var state in weightedStates) {
+                    cell.Add(state.Item1, true);
+                }
+            }
+        }
+
     }
 }
