@@ -18,11 +18,15 @@ namespace WFC.SimpleTiles {
         }
 
         public void Collapse() {
-            var candidates = Superposition.Where( pair => pair.Value).Select(pair => pair.Key);
+            var candidateColors = Superposition.Where( pair => pair.Value).Select(pair => pair.Key);
             var rand = new System.Random();
-            var color = candidates.ElementAtOrDefault(rand.Next(candidates.Count()));
-            CollapsedState = color;
-            Superposition.Clear();
+            CollapsedState = candidateColors.ElementAtOrDefault(rand.Next(candidateColors.Count()));
+            
+            foreach (var color in candidateColors) {
+                if(color != CollapsedState) {
+                    Superposition[color] = false;
+                }
+            }
         }
     }
 }
