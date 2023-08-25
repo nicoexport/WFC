@@ -4,27 +4,44 @@ using UnityEngine;
 
 namespace WFC.SimpleTiles {
     class Cell {
-        public bool IsCollapsed => !Superposition.Select(x => x.Value).Any();
-        public int Enthropy => Superposition.Where(pair => pair.Value).Select(pair => pair.Key).Count();
+        public bool IsCollapsed => !superposition.Select(x => x.Value).Any();
+        public int Enthropy => superposition.Where(pair => pair.Value).Select(pair => pair.Key).Count();
         public Color CollapsedState { get; private set; }
 
-        Dictionary<Color, bool> Superposition;
+        Dictionary<Color, bool> superposition;
+        IEnumerable<(Color, Color, Direction)> rules;
 
-        public Cell(IEnumerable<Color> states) {
-            Superposition = new Dictionary<Color, bool>();
+        public Cell(IEnumerable<Color> states, IEnumerable<(Color, Color, Direction)> rules) {
+            superposition = new Dictionary<Color, bool>();
             foreach (var state in states) {
-                Superposition.Add(state, true);
+                superposition.Add(state, true);
             }
+            this.rules = rules;
         }
 
         public void Collapse() {
-            var candidateColors = Superposition.Where( pair => pair.Value).Select(pair => pair.Key);
+            var candidateColors = superposition.Where( pair => pair.Value).Select(pair => pair.Key);
             var rand = new System.Random();
             CollapsedState = candidateColors.ElementAtOrDefault(rand.Next(candidateColors.Count()));
             
             foreach (var color in candidateColors) {
                 if(color != CollapsedState) {
-                    Superposition[color] = false;
+                    superposition[color] = false;
+                }
+            }
+        }
+
+        public void Match(Cell other, Direction direction) {
+            var otherColors = other.superposition.Where(pair => pair.Value).Select(pair => pair.Key);
+            var thisColors = superposition.Where(pair => pair.Value).Select(pair => pair.Key);
+
+            foreach (var otherColor in otherColors) {
+                foreach (var thisColor in thisColors) {
+                    var candidateRule = (otherColor, thisColor, direction);
+
+                    if(!rules.Contains(candidateRule)) {
+                        superposition[thisColor] = false;
+                    }
                 }
             }
         }
