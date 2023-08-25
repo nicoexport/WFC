@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
@@ -17,14 +18,15 @@ namespace WFC.SimpleTiles {
 
         IEnumerable<(Color, int)> weightedStates;
         IEnumerable<(Color, Color, Direction)> rules;
-        Dictionary<Color, bool>[] wave;
+        Cell[] wave;
 
         public void Execute() {
             ReadInput();
-            wave = new Dictionary<Color, bool>[cellAmount];
+            wave = new Cell[cellAmount];
             InitializeWave();
 
-
+            //Observation
+            bool succes = FindLowestEnthropyCellIndex(wave, out int cellIndex);
         }
 
         void ReadInput() {
@@ -35,35 +37,25 @@ namespace WFC.SimpleTiles {
 
         void InitializeWave() {
             // Putting each cell into the superposition
-            foreach (var cell in wave) {
-                foreach (var state in weightedStates) {
-                    cell.Add(state.Item1, true);
-                }
+            for (int i = 0; i < wave.Length; i++) {
+                wave[i] = new(weightedStates.Select( x => x.Item1));
             }
         }
 
-        bool FindLowestEnthropyCellIndex(Dictionary<Color, bool>[] cells, out int cellIndex) {
+        bool FindLowestEnthropyCellIndex(Cell[] wave, out int cellIndex) {
             int lowest = int.MaxValue;
             cellIndex = -1;
 
-            for (int i = 0; i < cells.Length; i++) {
-                var cell = cells[i];
-                int enthropy = 0;
+            for (int i = 0; i < wave.Length; i++) {
+                var cell = wave[i];
 
-                foreach (var state in cell) {
-                    if(state.Value == true) {
-                        enthropy++;
-                    }
-                }
-
-                if (enthropy < lowest) {
-                    lowest = enthropy;
+                if (cell.Enthropy < lowest) {
+                    lowest = cell.Enthropy;
                     cellIndex = i;
                 }
             }
 
             return cellIndex == -1;
         }
-
     }
 }
