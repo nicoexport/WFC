@@ -78,7 +78,7 @@ namespace WFC.SimpleTiles {
         void Propagate(int cellIndex) {
             //CheckNeighbours add them to the stack if they are'nt on it and sort out states that dont match the rules
             observedCells.Add(cellIndex);
-           
+
             var coordinates = GetCoordinatesFromIndex(cellIndex);
             int x = coordinates.Item1;
             int y = coordinates.Item2;
