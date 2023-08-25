@@ -3,8 +3,8 @@ using System.Linq;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
-    class Cell {
-        public bool IsCollapsed => !superposition.Select(x => x.Value).Any();
+    public class Cell {
+        public bool IsCollapsed => superposition.Where(pair => pair.Value).Count() == 1;
         public int Enthropy => superposition.Where(pair => pair.Value).Select(pair => pair.Key).Count();
         public Color CollapsedState { get; private set; }
 
