@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Windows;
-using WFC.SimpleTiles;
 
 namespace WFC.SimpleTiles.Tests {
     [TestFixture(TestOf = typeof(SimpleWaveGrid))]
@@ -35,7 +32,7 @@ namespace WFC.SimpleTiles.Tests {
             };
 
             var sut = new Cell(colors, rules);
-            sut.Collapse(); 
+            sut.Collapse();
 
             Assert.That(sut.IsCollapsed, Is.True);
         }
