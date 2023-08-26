@@ -20,7 +20,7 @@ namespace WFC.SimpleTiles {
         IEnumerable<(Color, Color, Direction)> rules;
         Cell[] wave;
         Queue<int> cellsToPropagate = new();
-        List<int> observedCells = new();
+        List<int> propagatedCells = new();
 
         public void Execute() {
             ReadInput();
@@ -28,13 +28,14 @@ namespace WFC.SimpleTiles {
             InitializeWave();
 
             //Observation
-            observedCells.Clear();
-            bool succes = FindLowestEnthropyCellIndex(wave, out int cellIndex);
+            propagatedCells.Clear();
+            bool succes = Observe(wave, out int cellIndex);
             wave[cellIndex].Collapse();
             cellsToPropagate.Enqueue(cellIndex);
 
             while (cellsToPropagate.Count > 0) {
-                Propagate(cellsToPropagate.Dequeue());
+                int cell = cellsToPropagate.Dequeue();
+                Propagate(cell);
             }
 
             foreach (var item in wave) {
@@ -59,7 +60,7 @@ namespace WFC.SimpleTiles {
             }
         }
 
-        bool FindLowestEnthropyCellIndex(Cell[] wave, out int cellIndex) {
+        bool Observe(Cell[] wave, out int cellIndex) {
             int lowest = int.MaxValue;
             cellIndex = -1;
 
@@ -76,9 +77,13 @@ namespace WFC.SimpleTiles {
         }
 
         void Propagate(int cellIndex) {
-            //CheckNeighbours add them to the stack if they are'nt on it and sort out states that dont match the rules
-            observedCells.Add(cellIndex);
+            if (propagatedCells.Contains(cellIndex)) {
+                return;
+            }
+            propagatedCells.Add(cellIndex);
 
+
+            //CheckNeighbours add them to the stack if they are'nt on it and sort out states that dont match the rule
             var coordinates = GetCoordinatesFromIndex(cellIndex);
             int x = coordinates.Item1;
             int y = coordinates.Item2;
@@ -86,7 +91,7 @@ namespace WFC.SimpleTiles {
             // Check left pixel
             if (x > 0) {
                 int leftIndex = cellIndex - 1;
-                if (!observedCells.Contains(leftIndex)) {
+                if (!cellsToPropagate.Contains(leftIndex)) {
                     cellsToPropagate.Enqueue(leftIndex);
                     wave[leftIndex].Match(wave[cellIndex], Direction.Left);
                 }
@@ -95,7 +100,7 @@ namespace WFC.SimpleTiles {
             // Check right pixel
             if (x < outputSizeX - 1) {
                 int rightIndex = cellIndex + 1;
-                if (!observedCells.Contains(rightIndex)) {
+                if (!cellsToPropagate.Contains(rightIndex)) {
                     cellsToPropagate.Enqueue(rightIndex);
                     wave[rightIndex].Match(wave[cellIndex], Direction.Right);
                 }
@@ -104,7 +109,7 @@ namespace WFC.SimpleTiles {
             // Check top pixel
             if (y < outputSizeY - 1) {
                 int topIndex = cellIndex + outputSizeX;
-                if (!observedCells.Contains(topIndex)) {
+                if (cellsToPropagate.Contains(topIndex)) {
                     cellsToPropagate.Enqueue(topIndex);
                     wave[topIndex].Match(wave[cellIndex], Direction.Up);
                 }
@@ -113,13 +118,11 @@ namespace WFC.SimpleTiles {
             // Check bottom pixel
             if (y > 0) {
                 int bottomIndex = cellIndex - outputSizeX;
-                if (!observedCells.Contains(bottomIndex)) {
+                if (!cellsToPropagate.Contains(bottomIndex)) {
                     cellsToPropagate.Enqueue(bottomIndex);
                     wave[bottomIndex].Match(wave[cellIndex], Direction.Down);
                 }
             }
-
-            cellsToPropagate.Dequeue();
         }
 
         (int, int) GetCoordinatesFromIndex(int index) {

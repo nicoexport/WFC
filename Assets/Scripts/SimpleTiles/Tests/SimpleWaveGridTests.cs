@@ -15,12 +15,12 @@ namespace WFC.SimpleTiles.Tests {
             Assert.IsNotNull(sut);
         }
 
-        //[Test]
-        //public void T01_SimpleWaveGrid_WhenExecute() {
-        //    var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}Sprite07.png");
-        //    var sut = new SimpleWaveGrid(texture, 10, 10);
+        [Test]
+        public void T01_SimpleWaveGrid_WhenExecute() {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}Sprite07.png");
+            var sut = new SimpleWaveGrid(texture, 10, 10);
 
-        //    sut.Execute();
-        //}
+            sut.Execute();
+        }
     }
 }
