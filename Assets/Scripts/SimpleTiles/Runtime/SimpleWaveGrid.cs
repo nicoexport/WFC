@@ -39,11 +39,15 @@ namespace WFC.SimpleTiles {
             }
 
             foreach (var item in wave) {
-                var colors = item.superposition.Where(pair => pair.Value).Select(pair => pair.Key).ToList();
-                Debug.Log("--------------------------");
-                foreach (var color in colors) {
-                    Debug.Log(color);
+                if(item.IsContradictory) {
+                    Debug.Log(item.IsContradictory);
                 }
+
+                //var colors = item.superposition.Where(pair => pair.Value).Select(pair => pair.Key).ToList();
+                //Debug.Log("--------------------------");
+                //foreach (var color in colors) {
+                //    Debug.Log(color);
+                //}
             }
         }
 
