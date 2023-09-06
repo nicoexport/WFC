@@ -18,9 +18,14 @@ namespace WFC.SimpleTiles.Tests {
         [Test]
         public void T01_SimpleWaveGrid_WhenExecute() {
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}Sprite07.png");
-            var sut = new SimpleWaveGrid(texture, 5, 5);
+            var sut = new SimpleWaveGrid(texture, 3, 3);
 
             Debug.Log(sut.Execute());
+            Debug.Log("-----------------");
+            foreach (var cell in sut.wave) {
+                Debug.Log(cell.IsCollapsed);
+                Debug.Log(cell.CollapsedState);
+            }
         }
     }
 }

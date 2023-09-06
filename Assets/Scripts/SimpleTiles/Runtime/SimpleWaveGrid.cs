@@ -18,7 +18,7 @@ namespace WFC.SimpleTiles {
 
         IEnumerable<(Color, int)> weightedStates;
         IEnumerable<(Color, Color, Direction)> rules;
-        Cell[] wave;
+        public Cell[] wave { get; private set; }
 
         public bool Execute() {
             ReadInput();
@@ -26,7 +26,10 @@ namespace WFC.SimpleTiles {
 
             bool success;
             do {
-                success = Observe(out int collapsedCellIndex);
+                success = Observe(out int collapsedCellIndex, out bool hasContradiction);
+                if(hasContradiction) {
+                    return false;
+                }
 
                 if (success) {
                     Propagate(collapsedCellIndex);
@@ -51,12 +54,18 @@ namespace WFC.SimpleTiles {
             }
         }
 
-        bool Observe(out int collapsedCellIndex) {
+        bool Observe(out int collapsedCellIndex, out bool isContradictory) {
             int lowest = int.MaxValue;
             collapsedCellIndex = -1;
+            isContradictory = false;
 
             for (int i = 0; i < wave.Length; i++) {
                 var cell = wave[i];
+
+                if (!cell.IsCollapsed && cell.Enthropy == 0) {
+                    isContradictory = true;
+                    return false;
+                }
 
                 if (!cell.IsCollapsed && cell.Enthropy > 0 && cell.Enthropy < lowest) {
                     lowest = cell.Enthropy;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WFC.SimpleTiles {
     public class Cell {
-        public bool IsCollapsed => superposition.Where(pair => pair.Value).Count() == 1;
+        public bool IsCollapsed;
         public bool IsContradictory => superposition.Where(pair => pair.Value).Count() == 0;
         public int Enthropy => superposition.Where(pair => pair.Value).Select(pair => pair.Key).Count();
         public Color CollapsedState { get; private set; }
@@ -30,6 +30,7 @@ namespace WFC.SimpleTiles {
                     superposition[color] = false;
                 }
             }
+            IsCollapsed = true;
         }
 
         public bool Match(Cell other, Direction direction) {
