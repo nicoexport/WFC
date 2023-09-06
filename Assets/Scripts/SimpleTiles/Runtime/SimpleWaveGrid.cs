@@ -19,36 +19,22 @@ namespace WFC.SimpleTiles {
         IEnumerable<(Color, int)> weightedStates;
         IEnumerable<(Color, Color, Direction)> rules;
         Cell[] wave;
-        Queue<int> cellsToPropagate = new();
-        List<int> propagatedCells = new();
 
-        public void Execute() {
+        public bool Execute() {
             ReadInput();
-            wave = new Cell[cellAmount];
             InitializeWave();
 
-            //Observation
-            propagatedCells.Clear();
-            bool succes = Observe(wave, out int cellIndex);
-            wave[cellIndex].Collapse();
-            cellsToPropagate.Enqueue(cellIndex);
+            bool success;
+            do {
+                success = Observe(out int collapsedCellIndex);
 
-            while (cellsToPropagate.Count > 0) {
-                int cell = cellsToPropagate.Dequeue();
-                Propagate(cell);
-            }
-
-            foreach (var item in wave) {
-                if(item.IsContradictory) {
-                    Debug.Log(item.IsContradictory);
+                if (success) {
+                    Propagate(collapsedCellIndex);
                 }
+            } while (success);
 
-                //var colors = item.superposition.Where(pair => pair.Value).Select(pair => pair.Key).ToList();
-                //Debug.Log("--------------------------");
-                //foreach (var color in colors) {
-                //    Debug.Log(color);
-                //}
-            }
+            // check output for validity
+            return FullyCollapsed();
         }
 
         void ReadInput() {
@@ -58,79 +44,92 @@ namespace WFC.SimpleTiles {
         }
 
         void InitializeWave() {
+            wave = new Cell[cellAmount];
             // Putting each cell into the superposition
             for (int i = 0; i < wave.Length; i++) {
                 wave[i] = new(weightedStates.Select(x => x.Item1), rules);
             }
         }
 
-        bool Observe(Cell[] wave, out int cellIndex) {
+        bool Observe(out int collapsedCellIndex) {
             int lowest = int.MaxValue;
-            cellIndex = -1;
+            collapsedCellIndex = -1;
 
             for (int i = 0; i < wave.Length; i++) {
                 var cell = wave[i];
 
-                if (cell.Enthropy < lowest) {
+                if (!cell.IsCollapsed && cell.Enthropy > 0 && cell.Enthropy < lowest) {
                     lowest = cell.Enthropy;
-                    cellIndex = i;
+                    collapsedCellIndex = i;
                 }
             }
 
-            return cellIndex == -1;
+            if (collapsedCellIndex == -1) {
+                return false;
+            }
+
+            wave[collapsedCellIndex].Collapse();
+
+            return true;
         }
 
-        void Propagate(int cellIndex) {
-            if (propagatedCells.Contains(cellIndex)) {
-                return;
-            }
-            propagatedCells.Add(cellIndex);
+        void Propagate(int collapsedCellIndex) {
+            Queue<int> cellsToPropagate = new();
+            cellsToPropagate.Enqueue(collapsedCellIndex);
+            List<int> propagatedCells = new();
 
+            while (cellsToPropagate.Count > 0) {
+                int current = cellsToPropagate.Dequeue();
+                propagatedCells.Add(current);
 
-            //CheckNeighbours add them to the stack if they are'nt on it and sort out states that dont match the rule
-            var coordinates = GetCoordinatesFromIndex(cellIndex);
-            int x = coordinates.Item1;
-            int y = coordinates.Item2;
+                var coordinates = GetCoordinatesFromIndex(current);
+                int x = coordinates.Item1;
+                int y = coordinates.Item2;
 
-            // Check left pixel
-            if (x > 0) {
-                int leftIndex = cellIndex - 1;
-                if (!cellsToPropagate.Contains(leftIndex)) {
-                    cellsToPropagate.Enqueue(leftIndex);
-                    wave[leftIndex].Match(wave[cellIndex], Direction.Left);
+                // Check left pixel
+                if (x > 0) {
+                    int leftIndex = current - 1;
+                    if (!cellsToPropagate.Contains(leftIndex) && !propagatedCells.Contains(leftIndex)) {
+                        cellsToPropagate.Enqueue(leftIndex);
+                        wave[leftIndex].Match(wave[current], Direction.Left);
+                    }
                 }
-            }
 
-            // Check right pixel
-            if (x < outputSizeX - 1) {
-                int rightIndex = cellIndex + 1;
-                if (!cellsToPropagate.Contains(rightIndex)) {
-                    cellsToPropagate.Enqueue(rightIndex);
-                    wave[rightIndex].Match(wave[cellIndex], Direction.Right);
+                // Check right pixel
+                if (x < outputSizeX - 1) {
+                    int rightIndex = current + 1;
+                    if (!cellsToPropagate.Contains(rightIndex) && !propagatedCells.Contains(rightIndex)) {
+                        cellsToPropagate.Enqueue(rightIndex);
+                        wave[rightIndex].Match(wave[current], Direction.Right);
+                    }
                 }
-            }
 
-            // Check top pixel
-            if (y < outputSizeY - 1) {
-                int topIndex = cellIndex + outputSizeX;
-                if (cellsToPropagate.Contains(topIndex)) {
-                    cellsToPropagate.Enqueue(topIndex);
-                    wave[topIndex].Match(wave[cellIndex], Direction.Up);
+                // Check top pixel
+                if (y < outputSizeY - 1) {
+                    int topIndex = current + outputSizeX;
+                    if (cellsToPropagate.Contains(topIndex) && !propagatedCells.Contains(topIndex)) {
+                        cellsToPropagate.Enqueue(topIndex);
+                        wave[topIndex].Match(wave[current], Direction.Up);
+                    }
                 }
-            }
 
-            // Check bottom pixel
-            if (y > 0) {
-                int bottomIndex = cellIndex - outputSizeX;
-                if (!cellsToPropagate.Contains(bottomIndex)) {
-                    cellsToPropagate.Enqueue(bottomIndex);
-                    wave[bottomIndex].Match(wave[cellIndex], Direction.Down);
+                // Check bottom pixel
+                if (y > 0) {
+                    int bottomIndex = current - outputSizeX;
+                    if (!cellsToPropagate.Contains(bottomIndex) && !propagatedCells.Contains(bottomIndex)) {
+                        cellsToPropagate.Enqueue(bottomIndex);
+                        wave[bottomIndex].Match(wave[current], Direction.Down);
+                    }
                 }
             }
         }
 
         (int, int) GetCoordinatesFromIndex(int index) {
             return (index % outputSizeX, index / outputSizeX);
+        }
+
+        bool FullyCollapsed() {
+            return wave.Any(cell => cell.IsContradictory);
         }
     }
 }

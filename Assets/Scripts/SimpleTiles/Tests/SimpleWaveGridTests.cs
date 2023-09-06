@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WFC.SimpleTiles.Tests {
     [TestFixture(TestOf = typeof(SimpleWaveGrid))]
-    internal sealed class SimpleWaveGridTests {
+    sealed class SimpleWaveGridTests {
         const string PATH = "Assets/Scripts/SimpleTiles/TestAssets/";
 
         [Test]
@@ -18,9 +18,9 @@ namespace WFC.SimpleTiles.Tests {
         [Test]
         public void T01_SimpleWaveGrid_WhenExecute() {
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}Sprite07.png");
-            var sut = new SimpleWaveGrid(texture, 10, 10);
+            var sut = new SimpleWaveGrid(texture, 5, 5);
 
-            sut.Execute();
+            Debug.Log(sut.Execute());
         }
     }
 }
