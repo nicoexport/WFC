@@ -10,7 +10,10 @@ namespace WFC.SimpleTiles.Tests {
         [Test]
         public void T00_SimpleWaveGrid_LoadTexture() {
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}Sprite07.png");
-            var sut = new SimpleWaveGrid(texture, 10, 10);
+            var reader = new InputTextureReader(texture);
+            var weightedStates = reader.GetWeightedStates();
+            var rules = reader.GetRules();
+            var sut = new SimpleWaveGrid(10, 10, weightedStates, rules);
 
             Assert.IsNotNull(sut);
         }
@@ -18,7 +21,10 @@ namespace WFC.SimpleTiles.Tests {
         [Test]
         public void T01_SimpleWaveGrid_WhenExecute() {
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{PATH}Sprite07.png");
-            var sut = new SimpleWaveGrid(texture, 3, 3);
+            var reader = new InputTextureReader(texture);
+            var weightedStates = reader.GetWeightedStates();
+            var rules = reader.GetRules();
+            var sut = new SimpleWaveGrid(3, 3, weightedStates, rules);
 
             Debug.Log(sut.Execute());
             Debug.Log("-----------------");

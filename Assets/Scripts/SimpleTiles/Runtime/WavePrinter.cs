@@ -15,6 +15,11 @@ namespace WFC.SimpleTiles {
         [SerializeField]
         int maxAttempts = 3;
 
+        [SerializeField]
+        string outputPath = "Assets/Output/";
+        [SerializeField]
+        string fileName = "result.png";
+
         [ContextMenu("Run")]
         public void Run() {
             var reader = new InputTextureReader(inputTexture);
@@ -46,6 +51,8 @@ namespace WFC.SimpleTiles {
 
                 outputTexture.SetPixel(coordinates.Item1, coordinates.Item2, item.CollapsedState);
                 outputTexture.Apply();
+                byte[] bytes = outputTexture.EncodeToPNG();
+                System.IO.File.WriteAllBytes($"{outputPath}{fileName}", bytes);
             }
         }
 
