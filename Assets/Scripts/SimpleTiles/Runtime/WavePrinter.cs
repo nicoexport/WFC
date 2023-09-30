@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Windows;
 using WFC.SimpleTiles;
+using static PlasticGui.Help.GuiHelp;
 
 namespace WFC.SimpleTiles {
     public class WavePrinter : MonoBehaviour {
@@ -15,7 +17,11 @@ namespace WFC.SimpleTiles {
 
         [ContextMenu("Run")]
         public void Run() {
-            var grid = new SimpleWaveGrid(inputTexture, outputTexture.width, outputTexture.height);
+            var reader = new InputTextureReader(inputTexture);
+            var weightedStates = reader.GetWeightedStates();
+            var rules = reader.GetRules();
+
+            var grid = new SimpleWaveGrid(outputTexture.width, outputTexture.height, weightedStates, rules);
 
             int attempts = 0;
             bool succes = false;

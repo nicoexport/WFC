@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace WFC.SimpleTiles {
     public class SimpleWaveGrid {
-        public SimpleWaveGrid(Texture2D input, int outputSizeX, int outputSizeY) {
-            this.input = input;
+        public SimpleWaveGrid(int outputSizeX, int outputSizeY,
+            IEnumerable<(Color, int)> weightedStates, IEnumerable<(Color, Color, Direction)> rules) {
             this.outputSizeX = outputSizeX;
             this.outputSizeY = outputSizeY;
+            this.weightedStates = weightedStates;
+            this.rules = rules;
             cellAmount = this.outputSizeX * this.outputSizeY;
         }
 
-        readonly Texture2D input;
         readonly int outputSizeX;
         readonly int outputSizeY;
         readonly int cellAmount;
@@ -21,7 +22,6 @@ namespace WFC.SimpleTiles {
         public Cell[] wave { get; private set; }
 
         public bool Execute() {
-            ReadInput();
             InitializeWave();
 
             bool success;
@@ -38,12 +38,6 @@ namespace WFC.SimpleTiles {
 
             // check output for validity
             return FullyCollapsed();
-        }
-
-        void ReadInput() {
-            var reader = new InputTextureReader(input);
-            weightedStates = reader.GetWeightedStates();
-            rules = reader.GetRules();
         }
 
         void InitializeWave() {

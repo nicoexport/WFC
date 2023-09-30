@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace WFC.SimpleTiles {
-    internal sealed class InputTextureReader {
+    sealed class InputTextureReader {
         readonly Texture2D inputTexture;
         public InputTextureReader(Texture2D inputTexture) => this.inputTexture = inputTexture;
 
@@ -33,11 +33,8 @@ namespace WFC.SimpleTiles {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int index = (y * width) + x;
-
-                    // Access the current pixel
                     var currentPixelColor = pixels[index];
                     // Check neighboring pixels to setup rules
-
                     // Check left pixel
                     if (x > 0) {
                         int leftIndex = index - 1;
