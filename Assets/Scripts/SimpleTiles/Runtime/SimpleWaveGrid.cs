@@ -27,7 +27,7 @@ namespace WFC.SimpleTiles {
             bool success;
             do {
                 success = Observe(out int collapsedCellIndex, out bool hasContradiction);
-                if(hasContradiction) {
+                if (hasContradiction) {
                     return false;
                 }
 

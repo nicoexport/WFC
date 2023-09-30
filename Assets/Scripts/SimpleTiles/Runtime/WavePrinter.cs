@@ -1,15 +1,11 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Windows;
-using WFC.SimpleTiles;
-using static PlasticGui.Help.GuiHelp;
+﻿using UnityEngine;
 
 namespace WFC.SimpleTiles {
     public class WavePrinter : MonoBehaviour {
         [SerializeField]
         Texture2D inputTexture;
 
-        [SerializeField] 
+        [SerializeField]
         Texture2D outputTexture;
 
         [SerializeField]
@@ -19,6 +15,10 @@ namespace WFC.SimpleTiles {
         string outputPath = "Assets/Output/";
         [SerializeField]
         string fileName = "result.png";
+
+        protected void Start() {
+            Run();
+        }
 
         [ContextMenu("Run")]
         public void Run() {
